@@ -1,24 +1,20 @@
-var flashcards = require("./flashcards.js");
+var BasicCard = require("./BasicCard.js");
+var data = require ("./questions.js");
 var Inquirer = require("inquirer");
 
-var counter = 1;
-var correct = 0
+var questions = [];
+var counter = 0;
+var correct = 0;
 
+// Create Basic questions using constructor
+data.forEach(function(question) {
+	questions.push(new BasicCard(questions.number, questions.question, questions.answer));
+});
 
-q1 = new BasicCard("Q1", "What is the capital of Tunisia?", "Tunis");
-q2 = new BasicCard("Q2", "What is the capital of Ethiopia?", "Addis Ababa");
-q3 = new BasicCard("Q3", "What is the capital of Ghana?", "Accra");
-q4 = new BasicCard("Q4", "What is the capital of Kenya?", "Nairobi");
-q5 = new BasicCard("Q5", "What is the capital of Egypt?", "Cairo");
-q6 = new BasicCard("Q6", "What is the capital of Nigeria?", "Abuja");
-q7 = new BasicCard("Q7", "What is the capital of Namibia?", "Windhoek"); 
-q8 = new BasicCard("Q8", "What is the capital of Djibouti?", "Djibouti");
-q9 = new BasicCard("Q9", "What is the capital of Guinea-Bissau?", "Bissau");
-q10 = new BasicCard("Q10", "What is the capital of Uganda?", "Kigali");
+console.log(data[0].number + data[0].question);
+function start
 
-console.log(flashcards);
-
-function start() {
+() {
 
 	Inquirer.prompt([
 			{
@@ -34,68 +30,85 @@ function start() {
             quiz();
         } else {
             //bidItem();
-            console.log(`
+		            console.log(`
 -----------------------------------------------------
 |                                                   | 
 |    Knowledge is Power. Therefore, you are weak.   |   
 |            										|
 -----------------------------------------------------
-`);
-
-        }
-    });
-}
+				`);
+			    }	
+    		});
+		}
 
 
 function quiz() {
-	console.log("counter is: " + counter);
-
 
 		console.log("----------------------------------------------------------\n");
 		console.log("Correct Answers: " + correct +"\n");	
 		console.log("----------------------------------------------------------\n");
-		if (counter === flashcards.length) {
+		if (counter === data.length) {
 			endQuiz(correct);
 		} else
 			Inquirer.prompt([
 				{
 					type: "input",
-					message: flashcards.q[counter].number + ": " + flashcards.q[counter].front,
+					message: data[counter].number + ": " + data[counter].question,
 					name: "capital"
 				}
 				]).then(function(answer) {
 				
-				if (answer.capital === flashcards.q[counter].back) {
+				if (answer.capital.toLowerCase() === data[counter].answer.toLowerCase()) {
 					console.log("You are correct!");
 					correct++;
 
 				} else {
-					console.log("You're barking up the right tree, but the answer is " + flashcards.q[counter].back + ".");
+					console.log("You're barking up the right tree, but the answer is " + data[counter].answer + ".");
 
 				}
-					counter++;
-					quiz();
+					continueQuiz();
+
 			});
 };
 
+
+function continueQuiz() {
+	Inquirer.prompt([
+		{
+		type: "list",
+		message: "Do you want to keep going?",
+		choices: ["Yes", "No, I need a break"],
+		name: "continue"
+		}
+		]).then(function(answer) {
+			if (answer.continue == "Yes") {
+				counter++;
+
+				quiz();
+			} else {
+				endQuiz(correct);
+			}
+		})
+};
+
 function endQuiz() {
-	if (correct === flashcards.length) {
+	if (correct === counter + 1) {
 		console.log(`
 -----------------------------------------------------
                                                     
 	Perfect Score!   						   
-	You scored ${correct} out of ${questions.length}!
+	You scored ${correct} out of ${counter+1}!
 													
 -----------------------------------------------------
 `);
 	  
-	} else if ((correct/flashcards.length) >0.69) {
+	} else if ((correct/(counter + 1)) >0.69) {
 		
 		console.log(`
 -----------------------------------------------------
                                                     
 	Great Job! You scored					   
-	You passed with ${correct} out of ${questions.length}.	
+	You passed with ${correct} out of ${counter+1}.	
 													
 -----------------------------------------------------
 `);
@@ -104,7 +117,7 @@ function endQuiz() {
 -----------------------------------------------------
                                                     
 	Not so good. Let's try again. 					   
-	You only knew ${correct} out of ${questions.length}.
+	You only knew ${correct} out of ${counter+1}.
 													
 -----------------------------------------------------
 `);
