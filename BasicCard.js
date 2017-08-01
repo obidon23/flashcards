@@ -1,35 +1,19 @@
 //variables and requires
-var questionsAndAnswers = require("./flashcards.js");
+var flashcards = require("./flashcards.js");
 var Inquirer = require("inquirer");
 
-var BasicCard = function(number, front, back) {
-	this.number = number,
-	this.front = front,
-	this.back = back;
-};
-
-var counter = 0;
+var counter = 1;
 var correct = 0
-var questions = [];
 
-questions.push(new BasicCard("q1", "What is the capital of Tunisia?", "Tunis"));
-questions.push(new BasicCard("q2", "What is the capital of Ethiopia?", "Addis Ababa"));
-questions.push(new BasicCard("q3", "What is the capital of Ghana?", "Accra"));
-questions.push(new BasicCard("q4", "What is the capital of Kenya?", "Nairobi"));
-questions.push(new BasicCard("q5", "What is the capital of Egypt?", "Cairo"));
-questions.push(new BasicCard("q6", "What is the capital of Nigeria?", "Abuja"));
-questions.push(new BasicCard("q7", "What is the capital of Namibia?", "Windhoek")); 
-questions.push(new BasicCard("q8", "What is the capital of Djibouti?", "Djibouti"));
-questions.push(new BasicCard("q9", "What is the capital of Guinea-Bissau?", "Bissau"));
-questions.push(new BasicCard("q10", "What is the capital of Uganda?", "Kigali"));
-
+console.log(flashcards);
 
 function start() {
+
 	Inquirer.prompt([
 			{
 				type: "list",
 				message: "Let's learn our African Capitals! May seem stupid now, but you'll thank me when you get on Jeopardy! Are you ready to get started?",
-				choices: ["Yes!", "No Thanks."],
+				choices: ["Yes!", "I can't handle the truth."],
 				name: "start"	
 			}
 
@@ -53,28 +37,29 @@ function start() {
 
 
 function quiz() {
-;
+	console.log("counter is: " + counter);
+
 
 		console.log("----------------------------------------------------------\n");
 		console.log("Correct Answers: " + correct +"\n");	
 		console.log("----------------------------------------------------------\n");
-		if (counter === questions.length) {
+		if (counter === flashcards.length) {
 			endQuiz(correct);
 		} else
 			Inquirer.prompt([
 				{
 					type: "input",
-					message: questions[counter].number + ": " + questions[counter].front,
+					message: flashcards.q[counter].number + ": " + flashcards.q[counter].front,
 					name: "capital"
 				}
 				]).then(function(answer) {
 				
-				if (answer.capital === questions[counter].back) {
+				if (answer.capital === flashcards.q[counter].back) {
 					console.log("You are correct!");
 					correct++;
 
 				} else {
-					console.log("You're barking up the right tree, but the answer is " + questions[counter].back + ".");
+					console.log("You're barking up the right tree, but the answer is " + flashcards.q[counter].back + ".");
 
 				}
 					counter++;
@@ -83,7 +68,7 @@ function quiz() {
 };
 
 function endQuiz() {
-	if (correct === questions.length) {
+	if (correct === flashcards.length) {
 		console.log(`
 -----------------------------------------------------
                                                     
@@ -93,7 +78,7 @@ function endQuiz() {
 -----------------------------------------------------
 `);
 	  
-	} else if ((correct/questions.length) >0.69) {
+	} else if ((correct/flashcards.length) >0.69) {
 		
 		console.log(`
 -----------------------------------------------------
