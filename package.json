@@ -1,0 +1,23 @@
+{
+  "name": "flashcards",
+  "version": "1.0.0",
+  "description": "Working with Cloze Constructors",
+  "main": "flashcards.js",
+  "dependencies": {
+    "inquirer": "^3.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/obidon23/flashcards.git"
+  },
+  "author": "Don Gucke",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/obidon23/flashcards/issues"
+  },
+  "homepage": "https://github.com/obidon23/flashcards#readme"
+}
